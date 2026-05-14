@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HARUTAS 社内データ管理</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F6FA;
+    --surface: #FFFFFF;
+    --surface2: #F0F3F9;
+    --border: #E2E8F3;
+    --text-primary: #1A2340;
+    --text-secondary: #5A6480;
+    --text-muted: #9AA3B8;
+    --accent: #1F4ED8;
+    --accent-light: #EEF3FF;
+    --green: #0E7A50;
+    --green-light: #E8F7F1;
+    --orange: #C45C00;
+    --orange-light: #FFF3E8;
+    --gray: #5A6480;
+    --gray-light: #F0F3F9;
+    --tag-monthly: #1F4ED8;
+    --tag-sales: #0E7A50;
+    --tag-labor: #C45C00;
+    --shadow-sm: 0 1px 3px rgba(26,35,64,0.07);
+    --shadow-md: 0 4px 16px rgba(26,35,64,0.10);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--text-primary);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(26,35,64,0.18);
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .header-logo {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .header-title { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 0.03em; }
+  .header-sub { color: rgba(255,255,255,0.45); font-size: 11px; font-family: 'DM Mono', monospace; margin-top: 1px; }
+  .header-meta { color: rgba(255,255,255,0.38); font-size: 11px; font-family: 'DM Mono', monospace; }
+
+  /* ===== MAIN ===== */
+  main { padding: 32px 40px 60px; max-width: 1200px; margin: 0 auto; }
+
+  /* ===== SUMMARY CARDS ===== */
+  .summary-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .summary-card .s-label { font-size: 11px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+  .summary-card .s-value { font-size: 28px; font-weight: 700; color: var(--text-primary); font-family: 'DM Mono', monospace; line-height: 1.1; }
+  .summary-card .s-sub { font-size: 11px; color: var(--text-secondary); }
+  .summary-card.accent { background: var(--accent); border-color: var(--accent); }
+  .summary-card.accent .s-label, .summary-card.accent .s-value, .summary-card.accent .s-sub { color: #fff; }
+  .summary-card.accent .s-label { color: rgba(255,255,255,0.65); }
+  .summary-card.accent .s-sub { color: rgba(255,255,255,0.65); }
+
+  /* ===== SECTION ===== */
+  .section { margin-bottom: 28px; }
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-icon {
+    width: 28px; height: 28px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .section-icon.blue { background: var(--accent-light); }
+  .section-icon.green { background: var(--green-light); }
+  .section-icon.orange { background: var(--orange-light); }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+  .section-count {
+    margin-left: auto;
+    font-size: 11px; font-family: 'DM Mono', monospace;
+    color: var(--text-muted); background: var(--surface2);
+    padding: 2px 8px; border-radius: 20px; border: 1px solid var(--border);
+  }
+
+  /* ===== DATA CARDS GRID ===== */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+  }
+
+  .data-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
+    display: flex; flex-direction: column; gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .data-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .data-card.monthly::before { background: var(--tag-monthly); }
+  .data-card.sales::before { background: var(--tag-sales); }
+  .data-card.labor::before { background: var(--tag-labor); }
+
+  .data-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: #C5CEEA;
+  }
+
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .card-name { font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.4; flex: 1; }
+
+  .badge {
+    font-size: 10px; font-weight: 600; padding: 2px 8px;
+    border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .badge.monthly { background: var(--accent-light); color: var(--accent); }
+  .badge.half { background: var(--green-light); color: var(--green); }
+  .badge.labor { background: var(--orange-light); color: var(--orange); }
+
+  .card-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+
+  .card-meta {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 1px; }
+  .meta-label { font-size: 10px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+  .meta-value { font-size: 12px; color: var(--text-primary); font-family: 'DM Mono', monospace; }
+  .meta-value.pending { color: var(--text-muted); font-style: italic; font-family: 'Noto Sans JP', sans-serif; }
+
+  .card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .card-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 600; color: var(--accent);
+    text-decoration: none; padding: 5px 10px;
+    background: var(--accent-light); border-radius: 6px;
+    transition: background 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .card-link:hover { background: #dde6ff; }
+  .card-link.external { color: var(--green); background: var(--green-light); }
+  .card-link.external:hover { background: #c8eedd; }
+  .card-assignee {
+    font-size: 11px; color: var(--text-muted);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .assignee-dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--surface2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: var(--text-secondary); font-weight: 700;
+  }
+
+  /* ===== NOTICE ===== */
+  .notice {
+    background: #FFFBEB; border: 1px solid #F6D860;
+    border-radius: 10px; padding: 12px 16px;
+    font-size: 12px; color: #8A6B00;
+    display: flex; align-items: flex-start; gap: 8px;
+    margin-bottom: 28px;
+  }
+  .notice-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 24px 40px;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== ANIMATIONS ===== */
+  .data-card { animation: fadeUp 0.3s ease both; }
+  .data-card:nth-child(1) { animation-delay: 0.04s; }
+  .data-card:nth-child(2) { animation-delay: 0.08s; }
+  .data-card:nth-child(3) { animation-delay: 0.12s; }
+  .data-card:nth-child(4) { animation-delay: 0.16s; }
+  .summary-card { animation: fadeUp 0.3s ease both; }
+  .summary-card:nth-child(1) { animation-delay: 0.02s; }
+  .summary-card:nth-child(2) { animation-delay: 0.05s; }
+  .summary-card:nth-child(3) { animation-delay: 0.08s; }
+  .summary-card:nth-child(4) { animation-delay: 0.11s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="header-logo">📊</div>
+    <div>
+      <div class="header-title">HARUTAS 社内データ管理</div>
+      <div class="header-sub">閲覧権限：総務経理・中本</div>
+    </div>
+  </div>
+  <div class="header-meta">最終更新：2026-05-14　担当：一條月子</div>
+</header>
+
+<main>
+
+  <!-- サマリーカード -->
+  <div class="summary-row">
+    <div class="summary-card accent">
+      <div class="s-label">登録データ総数</div>
+      <div class="s-value">7</div>
+      <div class="s-sub">件</div>
+    </div>
+    <div class="summary-card">
+      <div class="s-label">月次更新</div>
+      <div class="s-value">3</div>
+      <div class="s-sub">件（毎月更新）</div>
+    </div>
+    <div class="summary-card">
+      <div class="s-label">受注・売上分析</div>
+      <div class="s-value">5</div>
+      <div class="s-sub">件（半期・通期）</div>
+    </div>
+    <div class="summary-card">
+      <div class="s-label">労務・総務</div>
+      <div class="s-value">1</div>
+      <div class="s-sub">件</div>
+    </div>
+  </div>
+
+  <!-- 注意書き -->
+  <div class="notice">
+    <span class="notice-icon">⚠️</span>
+    <span>このダッシュボードはデータの所在・概要を確認するための一覧です。各データの詳細はリンク先（NotionページまたはGoogleスプレッドシート）で確認してください。データを追加・更新する際はClaudeに依頼してください。</span>
+  </div>
+
+  <!-- 月次データ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon blue">🗓</div>
+      <div class="section-title">月次データ</div>
+      <div class="section-count">毎月更新 · 3件</div>
+    </div>
+    <div class="cards-grid">
+
+      <div class="data-card monthly">
+        <div class="card-top">
+          <div class="card-name">楽天販売 積み上げデータ</div>
+          <span class="badge monthly">月次</span>
+        </div>
+        <div class="card-desc">楽天RMS販売データを月次で積み上げ。①生データ ②月次サマリー ③商品別サマリー ④〜⑥商品×月クロス集計の6シート構成。</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">対象期間</span>
+            <span class="meta-value">2025-01〜累積</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">最終更新</span>
+            <span class="meta-value">2026-04</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="https://www.notion.so/360c1cb359e18123b8b8cc6b8b920eda" target="_blank" class="card-link">→ Notionで開く</a>
+          <div class="card-assignee"><div class="assignee-dot">一</div> 一條</div>
+        </div>
+      </div>
+
+      <div class="data-card monthly">
+        <div class="card-top">
+          <div class="card-name">HARUTAS 楽天レビュー 統合データベース</div>
+          <span class="badge monthly">月次</span>
+        </div>
+        <div class="card-desc">楽天に投稿された全レビューを一元管理。レビュー内容を全て統合したデータ。</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">対象期間</span>
+            <span class="meta-value">2020-01〜2026-05</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">最終更新</span>
+            <span class="meta-value">2026-05-13</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="https://docs.google.com/spreadsheets/d/1gWxgRUzkQJaxLGIfhKSf6s3tnkTWHROi9ZrZMUbfpt8/edit?gid=852480288" target="_blank" class="card-link external">→ スプレッドシートで開く</a>
+          <div class="card-assignee"><div class="assignee-dot">熊</div> 熊本</div>
+        </div>
+      </div>
+
+      <div class="data-card labor">
+        <div class="card-top">
+          <div class="card-name">シフト変更データ</div>
+          <span class="badge labor">月次</span>
+        </div>
+        <div class="card-desc">スタッフのシフト変更記録。月別シフト変更記録・検索機能付き。</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">対象期間</span>
+            <span class="meta-value">2025-10〜2026-03</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">最終更新</span>
+            <span class="meta-value">2026-03</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="https://www.notion.so/360c1cb359e1817fae4bcf8b12c9c10b" target="_blank" class="card-link">→ Notionで開く</a>
+          <div class="card-assignee"><div class="assignee-dot">ー</div> 未定</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 受注・売上分析 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon green">📦</div>
+      <div class="section-title">受注・売上分析</div>
+      <div class="section-count">半期・通期 · 4件</div>
+    </div>
+    <div class="cards-grid">
+
+      <div class="data-card sales">
+        <div class="card-top">
+          <div class="card-name">楽天受注分析（洗面台・LIXILキッチン）</div>
+          <span class="badge half">半期</span>
+        </div>
+        <div class="card-desc">洗面台ジャンルとLIXILキッチンジャンルの受注分析。シリーズ別売上構成・月次推移・担当者別実績。</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">対象期間</span>
+            <span class="meta-value">2025年4〜9月（上期）</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">最終更新</span>
+            <span class="meta-value">2025年上期</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="https://www.notion.so/360c1cb359e1817d84afcaebdb2f45b6" target="_blank" class="card-link">→ Notionで開く</a>
+          <div class="card-assignee"><div class="assignee-dot">ー</div> 未定</div>
+        </div>
+      </div>
+
+      <div class="data-card sales">
+        <div class="card-top">
+          <div class="card-name">楽天RMS セット・高額受注集計</div>
+          <span class="badge half">半期</span>
+        </div>
+        <div class="card-desc">楽天の高額・セット受注の集計データ。直振込データ含む。月別サマリー・セット案件一覧・単品高額一覧。</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">対象期間</span>
+            <span class="meta-value">2025-03〜2026-03</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">最終更新</span>
+            <span class="meta-value">2025年下期</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="https://www.notion.so/360c1cb359e181e88adffa165f6618d2" target="_blank" class="card-link">→ Notionで開く</a>
+          <div class="card-assignee"><div class="assignee-dot">ー</div> 未定</div>
+        </div>
+      </div>
+
+      <div class="data-card sales">
+        <div class="card-top">
+          <div class="card-name">高額案件受注状況レポート（50万円以上）</div>
+          <span class="badge half">半期</span>
+        </div>
+        <div class="card-desc">50万円以上の高額案件を集計。月別集計・担当者別ランキング・高額案件全件一覧。楽天決済は発送完了ベース。</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">対象期間</span>
+            <span class="meta-value">2025-04〜2026-03</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">最終更新</span>
+            <span class="meta-value">2026-04-09</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="https://www.notion.so/360c1cb359e181deb7bff58d6043cd51" target="_blank" class="card-link">→ Notionで開く</a>
+          <div class="card-assignee"><div class="assignee-dot">ー</div> 未定</div>
+        </div>
+      </div>
+
+      <div class="data-card sales">
+        <div class="card-top">
+          <div class="card-name">受注率分析レポート（全社）</div>
+          <span class="badge half">半期</span>
+        </div>
+        <div class="card-desc">見積→受注の転換率を多角分析。希望納期別BM・メーカー別受注率・高額/非高額別・事業計画への適用。</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">対象期間</span>
+            <span class="meta-value">2025下期〜全社</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">最終更新</span>
+            <span class="meta-value">2026-05-10</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="https://www.notion.so/360c1cb359e18131a964ecac01779210" target="_blank" class="card-link">→ Notionで開く</a>
+          <div class="card-assignee"><div class="assignee-dot">ー</div> 未定</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  HARUTAS 社内データ管理ダッシュボード　｜　閲覧権限：総務経理・中本　｜　更新：一條月子　2026-05-14
+</footer>
+
+</body>
+</html>
