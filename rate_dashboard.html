@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIXIL 仕入掛率まとめ</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=IBM+Plex+Mono:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f6f2;--white:#fff;--border:#e5e2da;--border2:#d0cdc4;
+  --text:#1a1a1a;--muted:#7a7570;--light:#f0ede6;
+  --k:#16a34a;--k-bg:#f0faf4;--k-bd:#86efac;
+  --t:#2563eb;--t-bg:#eff6ff;--t-bd:#93c5fd;
+  --w:#7c3aed;--w-bg:#f5f3ff;--w-bd:#c4b5fd;
+  --hi:#dc2626;--hi-bg:#fef2f2;
+}
+body{background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic',sans-serif;min-height:100vh}
+.mono{font-family:'IBM Plex Mono',monospace}
+
+.hdr{background:var(--white);border-bottom:2px solid var(--border);padding:16px 28px;display:flex;justify-content:space-between;align-items:center}
+.hdr h1{font-size:17px;font-weight:700}
+.hdr p{font-size:11px;color:var(--muted);margin-top:3px}
+.note-bar{background:#fffbeb;border-bottom:1px solid #fde68a;padding:10px 28px;font-size:12px;color:#92400e}
+
+.main{max-width:960px;margin:0 auto;padding:24px 28px}
+
+/* カテゴリタブ */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:22px;background:var(--white);border-radius:10px 10px 0 0;border:1.5px solid var(--border)}
+.tab{padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2.5px solid transparent;color:var(--muted);transition:all .12s;user-select:none;border-radius:8px 8px 0 0}
+.tab:hover{color:var(--text)}
+.tab.ak{border-color:var(--k);color:var(--k);background:var(--k-bg)}
+.tab.at{border-color:var(--t);color:var(--t);background:var(--t-bg)}
+.tab.aw{border-color:var(--w);color:var(--w);background:var(--w-bg)}
+.tab.aa{border-color:var(--text);color:var(--text);background:var(--light)}
+
+/* サマリーグリッド */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.card.ck::before{background:var(--k)}.card.ct::before{background:var(--t)}.card.cw::before{background:var(--w)}
+.card-cat{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase}
+.card-name{font-size:13px;font-weight:700;margin-bottom:10px;line-height:1.3}
+.card-rate{font-size:32px;font-weight:700;font-family:'IBM Plex Mono',monospace;line-height:1}
+.card-rate-k{color:var(--k)}.card-rate-t{color:var(--t)}.card-rate-w{color:var(--w)}
+.card-sub{font-size:11px;color:var(--muted);margin-top:5px}
+.card-bar{height:5px;border-radius:3px;background:var(--light);margin-top:10px}
+.card-bar-fill{height:100%;border-radius:3px}
+.card-note{font-size:10px;color:var(--hi);margin-top:6px;font-weight:700}
+
+/* メインチャート */
+.chart-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:20px}
+.chart-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.chart-sub{font-size:11px;color:var(--muted);margin-bottom:16px}
+
+/* 詳細テーブル */
+.tbl-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:20px}
+.tbl-title{font-size:14px;font-weight:700;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:7px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
+th.r{text-align:right}
+td{padding:8px 12px;border-bottom:1px solid #f3f1eb;vertical-align:middle}
+td.r{text-align:right;font-family:'IBM Plex Mono',monospace}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafaf8}
+.pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
+.pk{background:var(--k-bg);color:var(--k)}.pt{background:var(--t-bg);color:var(--t)}.pw{background:var(--w-bg);color:var(--w)}
+.rate-bar{display:inline-block;height:5px;border-radius:3px;vertical-align:middle;margin-left:6px;opacity:.6}
+
+/* 解説ボックス */
+.explain{background:var(--light);border-radius:10px;padding:16px 20px;margin-bottom:20px;font-size:12px;line-height:1.9;color:var(--text)}
+.explain strong{font-weight:700}
+.explain-title{font-size:13px;font-weight:700;margin-bottom:8px}
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.ex-item{background:var(--white);border-radius:8px;padding:12px 14px;border:1px solid var(--border2)}
+.ex-item-name{font-size:11px;font-weight:700;margin-bottom:4px}
+.ex-item-val{font-size:20px;font-weight:700;font-family:'IBM Plex Mono',monospace;margin-bottom:2px}
+.ex-item-note{font-size:10px;color:var(--muted)}
+
+.footer{text-align:center;font-size:11px;color:var(--muted);padding:20px 0 32px;line-height:1.8}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <h1>LIXIL シリーズ別 仕入掛率まとめ</h1>
+    <p>SHL請求書データより集計（2025年10月〜2026年1月）｜ HARUTAS掛率列を使用</p>
+  </div>
+  <div style="font-size:12px;color:var(--muted)">
+    <span class="mono" style="background:var(--light);padding:4px 10px;border-radius:6px">対象: 10,714行</span>
+  </div>
+</div>
+
+<div class="note-bar">
+  ⚠ 掛率＝仕入額 ÷ 定価。小さいほど安く仕入れている（有利）。利益率とは別の指標です。
+  リシェル24・サティスは掛率が高く（48〜50%）、定価に対して安い仕入れができていないことを意味します。
+</div>
+
+<div class="main">
+
+  <!-- カテゴリタブ -->
+  <div class="tabs">
+    <div class="tab aa" id="tab-all" onclick="setCat('all')">すべて</div>
+    <div class="tab" id="tab-k" onclick="setCat('k')">🥬 キッチン</div>
+    <div class="tab" id="tab-t" onclick="setCat('t')">🚽 トイレ</div>
+    <div class="tab" id="tab-w" onclick="setCat('w')">🪥 洗面</div>
+  </div>
+
+  <!-- 掛率カードグリッド -->
+  <div class="grid" id="cardGrid"></div>
+
+  <!-- 解説 -->
+  <div class="explain">
+    <div class="explain-title">📖 掛率の読み方</div>
+    掛率とは「定価に対して何%で仕入れているか」を示す数値です。<br>
+    <strong>掛率が低いほど安く仕入れている（＝有利）</strong>、掛率が高いほど定価に近い仕入れ（＝不利）です。
+    <div class="ex-grid">
+      <div class="ex-item">
+        <div class="ex-item-name">🥬 ES21（最も有利）</div>
+        <div class="ex-item-val" style="color:var(--k)">22.3%</div>
+        <div class="ex-item-note">定価40万円なら仕入れ約8.9万円<br>利益率も52%と最高水準</div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-item-name">🚽 サティスS/G/X（最も不利）</div>
+        <div class="ex-item-val" style="color:var(--hi)">50.5%</div>
+        <div class="ex-item-note">定価28万円なら仕入れ約14.1万円<br>利益率12〜15%と低いのはここが原因</div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-item-name">🥬 リシェル24（要注意）</div>
+        <div class="ex-item-val" style="color:var(--hi)">48.4%</div>
+        <div class="ex-item-note">キッチンなのに掛率が高い<br>利益率26%はこれが要因</div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-item-name">🚽 KB/KAシリーズ（中間）</div>
+        <div class="ex-item-val" style="color:var(--t)">25.3%</div>
+        <div class="ex-item-note">シャワートイレはES21並みに安い<br>利益率24〜25%はこれが支えている</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 横並びバーチャート -->
+  <div class="chart-card">
+    <div class="chart-title">シリーズ別 掛率 比較</div>
+    <div class="chart-sub">低いほど安く仕入れている ｜ 棒の色はカテゴリ別</div>
+    <div style="position:relative;height:280px">
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+
+  <!-- 月次推移チャート -->
+  <div class="chart-card" id="lineChartCard">
+    <div class="chart-title">月次推移（掛率の変動確認）</div>
+    <div class="chart-sub">2025年10月〜2026年1月 ｜ 掛率の月次変動</div>
+    <div style="position:relative;height:240px">
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+
+  <!-- 詳細テーブル -->
+  <div class="tbl-card">
+    <div class="tbl-title">シリーズ別 掛率 詳細テーブル</div>
+    <table id="mainTable">
+      <thead>
+        <tr>
+          <th>カテゴリ</th>
+          <th>シリーズ</th>
+          <th class="r">全期間平均掛率</th>
+          <th></th>
+          <th class="r">定価平均（参考）</th>
+          <th class="r">仕入単価目安</th>
+          <th class="r">件数</th>
+          <th>評価</th>
+        </tr>
+      </thead>
+      <tbody id="tblBody"></tbody>
+    </table>
+    <div style="font-size:11px;color:var(--muted);margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+      ※ 定価平均・仕入単価は2025年10〜2026年1月の実績ベース。定価が「オープン価格」の商品は除外。<br>
+      ※ 掛率はSHL請求書の「HARUTAS掛率」列の値を使用。
+    </div>
+  </div>
+
+  <div class="footer">
+    データ: SHL正式ファイル（2025年10月〜2026年1月）｜ 掛率が取得できた行のみ集計<br>
+    2025年4〜9月分は既存スプシに掛率列がないため対象外
+  </div>
+
+</div>
+
+<script>
+const DATA = {
+  "ES21（キッチン）":{cat:"k",all_pct:22.33,total:798,monthly:{"2025-10":{pct:22.41,count:167,avg_teika:356183},"2025-11":{pct:22.26,count:185,avg_teika:357027},"2025-12":{pct:22.28,count:221,avg_teika:351731},"2026-01":{pct:22.39,count:225,avg_teika:344898}}},
+  "ノクト22（キッチン）":{cat:"k",all_pct:27.99,total:273,monthly:{"2025-10":{pct:27.94,count:63,avg_teika:393984},"2025-11":{pct:28.09,count:64,avg_teika:362552},"2025-12":{pct:28.29,count:74,avg_teika:369811},"2026-01":{pct:27.64,count:72,avg_teika:333229}}},
+  "リシェル24（キッチン）":{cat:"k",all_pct:48.40,total:174,monthly:{"2025-10":{pct:48.41,count:43,avg_teika:513372},"2025-11":{pct:48.41,count:38,avg_teika:646000},"2025-12":{pct:48.39,count:41,avg_teika:437012},"2026-01":{pct:48.41,count:52,avg_teika:414538}}},
+  "KBシリーズ（トイレ）":{cat:"t",all_pct:25.26,total:422,monthly:{"2025-10":{pct:25.26,count:61,avg_teika:93238},"2025-11":{pct:25.26,count:101,avg_teika:92900},"2025-12":{pct:25.26,count:140,avg_teika:93194},"2026-01":{pct:25.26,count:120,avg_teika:93072}}},
+  "KAシリーズ（トイレ）":{cat:"t",all_pct:25.76,total:170,monthly:{"2025-10":{pct:25.26,count:24,avg_teika:112833},"2025-11":{pct:25.79,count:32,avg_teika:112109},"2025-12":{pct:26.07,count:42,avg_teika:113286},"2026-01":{pct:25.73,count:72,avg_teika:112618}}},
+  "サティスS（トイレ）":{cat:"t",all_pct:50.53,total:28,monthly:{"2025-10":{pct:50.53,count:5,avg_teika:285000},"2025-11":{pct:50.53,count:9,avg_teika:277556},"2025-12":{pct:50.53,count:9,avg_teika:266444},"2026-01":{pct:50.53,count:5,avg_teika:258000}}},
+  "サティスG（トイレ）":{cat:"t",all_pct:50.53,total:22,monthly:{"2025-10":{pct:50.53,count:2,avg_teika:273500},"2025-11":{pct:50.53,count:6,avg_teika:228500},"2025-12":{pct:50.53,count:6,avg_teika:213750},"2026-01":{pct:50.53,count:8,avg_teika:223750}}},
+  "サティスX（トイレ）":{cat:"t",all_pct:50.53,total:6,monthly:{"2025-10":{pct:50.53,count:2,avg_teika:310000},"2025-12":{pct:50.53,count:4,avg_teika:251750}}},
+  "ピアラ（洗面）":{cat:"w",all_pct:26.32,total:161,monthly:{"2025-10":{pct:26.32,count:27,avg_teika:80037},"2025-11":{pct:26.32,count:38,avg_teika:82158},"2025-12":{pct:26.32,count:52,avg_teika:81154},"2026-01":{pct:26.32,count:44,avg_teika:80909}}},
+  "コフレル（洗面）":{cat:"w",all_pct:29.97,total:47,monthly:{"2025-10":{pct:29.68,count:7,avg_teika:107357},"2025-11":{pct:29.68,count:13,avg_teika:115500},"2025-12":{pct:30.43,count:18,avg_teika:114278},"2026-01":{pct:29.68,count:9,avg_teika:107333}}},
+};
+
+const CAT_NAMES={k:"キッチン",t:"トイレ",w:"洗面"};
+const COL={k:"var(--k)",t:"var(--t)",w:"var(--w)"};
+const BG={k:"var(--k-bg)",t:"var(--t-bg)",w:"var(--w-bg)"};
+const MONTHS=["2025-10","2025-11","2025-12","2026-01"];
+const MLABEL={"2025-10":"10月","2025-11":"11月","2025-12":"12月","2026-01":"1月"};
+
+// 掛率の評価
+function rateJudge(pct){
+  if(pct<=23)return{label:"◎ 非常に有利",color:"var(--k)"};
+  if(pct<=30)return{label:"○ 有利",color:"#65a30d"};
+  if(pct<=40)return{label:"△ 普通",color:"var(--muted)"};
+  return{label:"▲ 要注意",color:"var(--hi)"};
+}
+
+let currentCat='all';
+let barInst=null,lineInst=null;
+
+function setCat(c){
+  currentCat=c;
+  ['all','k','t','w'].forEach(x=>{
+    const el=document.getElementById(`tab-${x}`);
+    el.className='tab';
+    if(x===c) el.classList.add(`a${x}`);
+  });
+  renderCards();
+  renderTable();
+  renderCharts();
+}
+
+function filtered(){
+  return Object.entries(DATA).filter(([,d])=>currentCat==='all'||d.cat===currentCat);
+}
+
+function renderCards(){
+  const entries=filtered().sort((a,b)=>a[1].all_pct-b[1].all_pct);
+  document.getElementById('cardGrid').innerHTML=entries.map(([name,d])=>{
+    const j=rateJudge(d.all_pct);
+    const isHi=d.all_pct>=45;
+    // 定価平均（最新月）
+    const latestM=Object.keys(d.monthly).sort().pop();
+    const teika=d.monthly[latestM]?.avg_teika;
+    const shiire=teika?Math.round(teika*d.all_pct/100):null;
+    return`<div class="card c${d.cat}">
+      <div class="card-cat">${CAT_NAMES[d.cat]}</div>
+      <div class="card-name">${name.replace(/（.*）/,'')}</div>
+      <div class="card-rate card-rate-${isHi?'k':d.cat}" style="color:${isHi?'var(--hi)':COL[d.cat]}">${d.all_pct}%</div>
+      <div class="card-sub">定価の${d.all_pct}%で仕入れ</div>
+      <div class="card-bar"><div class="card-bar-fill" style="width:${Math.min(d.all_pct*1.8,100)}%;background:${isHi?'var(--hi)':COL[d.cat]}"></div></div>
+      ${shiire?`<div class="card-sub" style="margin-top:6px">定価¥${Math.round(teika/10000)}万 → 仕入¥${Math.round(shiire/10000)}万</div>`:''}
+      ${isHi?`<div class="card-note">⚠ 掛率が高い</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderTable(){
+  const entries=filtered().sort((a,b)=>a[1].all_pct-b[1].all_pct);
+  document.getElementById('tblBody').innerHTML=entries.map(([name,d])=>{
+    const j=rateJudge(d.all_pct);
+    const latestM=Object.keys(d.monthly).sort().pop();
+    const teika=d.monthly[latestM]?.avg_teika;
+    const shiire=teika?Math.round(teika*d.all_pct/100):null;
+    const barW=Math.min(d.all_pct*1.5,80);
+    const isHi=d.all_pct>=45;
+    return`<tr>
+      <td><span class="pill p${d.cat}">${CAT_NAMES[d.cat]}</span></td>
+      <td style="font-weight:700">${name}</td>
+      <td class="r"><strong style="color:${isHi?'var(--hi)':COL[d.cat]};font-size:14px">${d.all_pct}%</strong></td>
+      <td><span class="rate-bar" style="width:${barW}px;background:${isHi?'var(--hi)':COL[d.cat]};display:inline-block;height:5px;border-radius:3px"></span></td>
+      <td class="r">${teika?'¥'+teika.toLocaleString():'-'}</td>
+      <td class="r">${shiire?'¥'+shiire.toLocaleString():'-'}</td>
+      <td class="r">${d.total}</td>
+      <td style="color:${j.color};font-weight:700;font-size:12px">${j.label}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderCharts(){
+  const entries=filtered().sort((a,b)=>a[1].all_pct-b[1].all_pct);
+  const labels=entries.map(([n])=>n.replace(/（.*）/,''));
+  const rates=entries.map(([,d])=>d.all_pct);
+  const colors=entries.map(([,d])=>d.all_pct>=45?'rgba(220,38,38,.7)':d.cat==='k'?'rgba(22,163,74,.7)':d.cat==='t'?'rgba(37,99,235,.7)':'rgba(124,58,237,.7)');
+
+  if(barInst)barInst.destroy();
+  barInst=new Chart(document.getElementById('barChart'),{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        label:'掛率(%)',data:rates,backgroundColor:colors,borderRadius:5,borderSkipped:false,
+      }]
+    },
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`掛率: ${ctx.parsed.x}%`}},
+        annotation:{annotations:{line50:{type:'line',xMin:50,xMax:50,borderColor:'rgba(220,38,38,.4)',borderWidth:1,borderDash:[4,3]}}}
+      },
+      scales:{
+        x:{min:0,max:60,ticks:{callback:v=>v+'%',font:{size:11},color:'#7a7570'},grid:{color:'#f0ede6'},border:{color:'transparent'}},
+        y:{ticks:{font:{size:12},color:'#1a1a1a'},grid:{display:false},border:{color:'transparent'}}
+      }
+    }
+  });
+
+  // ライン：月次推移（4ヶ月）
+  const lineEntries=filtered().filter(([,d])=>Object.keys(d.monthly).length>=2);
+  const lineColors={k:'#16a34a',t:'#2563eb',w:'#7c3aed'};
+  const lineDatasets=lineEntries.map(([name,d])=>({
+    label:name.replace(/（.*）/,''),
+    data:MONTHS.map(m=>d.monthly[m]?.pct||null),
+    borderColor:d.all_pct>=45?'#dc2626':lineColors[d.cat],
+    backgroundColor:'transparent',
+    borderWidth:2,pointRadius:3,tension:0.2,spanGaps:true,
+    borderDash:d.all_pct>=45?[4,3]:[],
+  }));
+
+  if(lineInst)lineInst.destroy();
+  lineInst=new Chart(document.getElementById('lineChart'),{
+    type:'line',
+    data:{labels:MONTHS.map(m=>MLABEL[m]),datasets:lineDatasets},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'top',labels:{font:{size:11},boxWidth:12,padding:10,color:'#7a7570'}},
+        tooltip:{mode:'index',intersect:false,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y?.toFixed(2)}%`}}
+      },
+      scales:{
+        y:{min:15,max:60,ticks:{callback:v=>v+'%',font:{size:11},color:'#7a7570'},grid:{color:'#f0ede6'},border:{color:'transparent'}},
+        x:{ticks:{font:{size:11},color:'#7a7570'},grid:{display:false},border:{color:'transparent'}}
+      }
+    }
+  });
+}
+
+renderCards();
+renderTable();
+renderCharts();
+</script>
+</body>
+</html>
