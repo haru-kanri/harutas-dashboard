@@ -19,13 +19,13 @@
 }
 body{background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic',sans-serif;min-height:100vh}
 .mono{font-family:'IBM Plex Mono',monospace}
-
+ 
 /* ===== ヘッダー ===== */
 .hdr{background:var(--white);border-bottom:2px solid var(--border);padding:18px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
 .hdr-left h1{font-size:17px;font-weight:700;letter-spacing:-.3px}
 .hdr-left p{font-size:11px;color:var(--muted);margin-top:3px}
 .hdr-right{display:flex;gap:10px;align-items:center}
-
+ 
 /* ===== 期間セレクター ===== */
 .period-bar{background:var(--white);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .period-label{font-size:12px;font-weight:700;color:var(--muted)}
@@ -40,7 +40,7 @@ body{background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic',sans-ser
 .alert-count{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:700;border:1.5px solid}
 .ac-ok{background:var(--k-bg);color:var(--k);border-color:var(--k-border)}
 .ac-ng{background:var(--alert-bg);color:var(--alert);border-color:#fca5a5}
-
+ 
 /* ===== カテゴリタブ ===== */
 .cat-tabs{background:var(--white);border-bottom:1px solid var(--border);padding:0 28px;display:flex;gap:0}
 .ctab{padding:11px 20px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2.5px solid transparent;color:var(--muted);transition:all .12s;user-select:none}
@@ -49,10 +49,10 @@ body{background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic',sans-ser
 .ctab.act-k{border-color:var(--k);color:var(--k)}
 .ctab.act-t{border-color:var(--t);color:var(--t)}
 .ctab.act-w{border-color:var(--w);color:var(--w)}
-
+ 
 /* ===== メインコンテンツ ===== */
 .main{max-width:1000px;margin:0 auto;padding:24px 28px}
-
+ 
 /* ===== サマリーバー ===== */
 .summary-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
 .scard{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px}
@@ -60,71 +60,71 @@ body{background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic',sans-ser
 .scard-v{font-size:28px;font-weight:700;line-height:1;font-family:'IBM Plex Mono',monospace}
 .scard-s{font-size:11px;color:var(--muted);margin-top:4px}
 .v-k{color:var(--k)}.v-t{color:var(--t)}.v-alert{color:var(--alert)}
-
+ 
 /* ===== シリーズリスト ===== */
 .series-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
-
+ 
 .srow{background:var(--white);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .12s,box-shadow .12s}
 .srow:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .srow.open{box-shadow:0 4px 16px rgba(0,0,0,.08)}
 .srow.alert-hi{border-color:#fca5a5}
 .srow.alert-lo{border-color:#93c5fd}
-
+ 
 .srow-main{display:grid;grid-template-columns:auto 1fr auto auto auto auto;align-items:center;gap:16px;padding:14px 18px}
 .cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .dot-k{background:var(--k)}.dot-t{background:var(--t)}.dot-w{background:var(--w)}
-
+ 
 .series-name{font-size:15px;font-weight:700}
 .series-sub{font-size:11px;color:var(--muted);margin-top:1px}
-
+ 
 .rate-display{text-align:right}
 .rate-big{font-size:26px;font-weight:700;font-family:'IBM Plex Mono',monospace;line-height:1}
 .rate-label{font-size:10px;color:var(--muted);margin-top:2px;text-align:right}
 .r-k{color:var(--k)}.r-t{color:var(--t)}.r-w{color:var(--w)}.r-alert{color:var(--alert)}
-
+ 
 .delta-badge{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;font-family:'IBM Plex Mono',monospace;white-space:nowrap}
 .db-ok{background:var(--light);color:var(--muted)}
 .db-hi{background:var(--alert-bg);color:var(--alert)}
 .db-lo{background:#eff6ff;color:#1d4ed8}
-
+ 
 .judge-badge{width:46px;text-align:center;padding:4px 0;border-radius:6px;font-size:11px;font-weight:700}
 .jb-ok{background:var(--k-bg);color:var(--k);border:1px solid var(--k-border)}
 .jb-hi{background:var(--alert-bg);color:var(--alert);border:1px solid #fca5a5}
 .jb-lo{background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd}
-
+ 
 .chevron{font-size:14px;color:var(--muted);transition:transform .2s;flex-shrink:0}
 .srow.open .chevron{transform:rotate(180deg)}
-
+ 
 /* ===== 展開詳細 ===== */
 .srow-detail{display:none;border-top:1px solid var(--border);padding:16px 18px}
 .srow.open .srow-detail{display:block}
-
+ 
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-
+ 
 .month-table{width:100%;border-collapse:collapse;font-size:12px}
 .month-table th{padding:6px 10px;text-align:left;font-size:10px;font-weight:700;color:var(--muted);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.4px}
 .month-table td{padding:7px 10px;border-bottom:1px solid #f3f1eb;vertical-align:middle}
 .month-table tr:last-child td{border-bottom:none}
 .month-table tr:hover td{background:#fafaf8}
-
+ 
 .bar-cell{width:100px}
 .mbar-bg{height:6px;border-radius:3px;background:var(--light)}
 .mbar-fill{height:100%;border-radius:3px}
 .fill-k{background:var(--k)}.fill-t{background:var(--t)}.fill-w{background:var(--w)}
 .fill-hi{background:var(--alert)}.fill-lo{background:#3b82f6}
-
+ 
 .mini-chart-wrap{height:160px;position:relative}
-
+ 
 .period-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .pp{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;border:1px solid var(--border);color:var(--muted);display:flex;gap:6px;align-items:center}
 .pp span{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700}
 .pp.pp-k{background:var(--k-bg);border-color:var(--k-border);color:var(--k)}
 .pp.pp-t{background:var(--t-bg);border-color:var(--t-border);color:var(--t)}
 .pp.pp-w{background:var(--w-bg);border-color:var(--w-border);color:var(--w)}
-
+ 
 .no-data{padding:40px;text-align:center;color:var(--muted);font-size:13px}
 .footer{text-align:center;font-size:11px;color:var(--muted);padding:24px 0 32px;line-height:1.8}
-
+ 
 /* ===== 要因分析パネル ===== */
 .analysis-panel{margin-top:16px;border-top:1px solid var(--border);padding-top:14px}
 .analysis-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
@@ -158,17 +158,17 @@ body{background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic',sans-ser
 </style>
 </head>
 <body>
-
+ 
 <div class="hdr">
   <div class="hdr-left">
     <h1>LIXIL シリーズ別利益率リスト</h1>
-    <p>SHL仕入れ × 楽天販売データ突合 ｜ 2025年4月〜2026年4月（9・10月除外）</p>
+    <p>SHL仕入れ × 楽天販売データ突合 ｜ 2025年4月〜2026年7月（9・10月除外）<span style="opacity:.75"> ／ 2026年8月20日更新</span></p>
   </div>
   <div class="hdr-right">
     <div class="alert-count ac-ok" id="alertCount">✅ 乖離 0件</div>
   </div>
 </div>
-
+ 
 <div class="period-bar">
   <span class="period-label">基準期間</span>
   <div class="period-btns">
@@ -184,14 +184,14 @@ body{background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic',sans-ser
     <span>% 以上で警告</span>
   </div>
 </div>
-
+ 
 <div class="cat-tabs">
   <div class="ctab act-all" id="ct-all" onclick="setCat('all')">すべて</div>
   <div class="ctab" id="ct-k" onclick="setCat('k')">🥬 キッチン</div>
   <div class="ctab" id="ct-t" onclick="setCat('t')">🚽 トイレ</div>
   <div class="ctab" id="ct-w" onclick="setCat('w')">🪥 洗面</div>
 </div>
-
+ 
 <div class="main">
   <div class="summary-bar" id="summBar"></div>
   <div class="series-list" id="seriesList"></div>
@@ -212,7 +212,7 @@ body{background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic',sans-ser
     </div>
   </div>
 </div>
-
+ 
 <style>
 .match-panel{background:var(--white);border:1.5px solid var(--border);border-radius:10px;margin-bottom:20px;overflow:hidden}
 .match-toggle{padding:12px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;color:var(--muted);user-select:none;transition:background .12s}
@@ -232,7 +232,7 @@ body{background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic',sans-ser
 .ok-rate-bar{display:inline-block;height:6px;border-radius:3px;vertical-align:middle;margin-left:4px}
 .match-chart-wrap{height:110px;position:relative}
 </style>
-
+ 
 <script>
 const MATCH_STATS = {"2025-04": {"ok": 12, "warn": 277, "direct": 143, "total": 432, "ok_rate": 66.9, "ok_shl": 1520, "warn_shl": 0, "direct_shl": 1254, "total_shl": 2774, "direct_shl_rate": 45.2}, "2025-05": {"ok": 44, "warn": 449, "direct": 26, "total": 519, "ok_rate": 95.0, "direct_shl": 204, "total_shl": 2822, "direct_shl_rate": 7.2}, "2025-06": {"ok": 64, "warn": 494, "direct": 47, "total": 605, "ok_rate": 92.2, "direct_shl": 417, "total_shl": 3667, "direct_shl_rate": 11.4}, "2025-07": {"ok": 36, "warn": 594, "direct": 63, "total": 693, "ok_rate": 90.9, "direct_shl": 428, "total_shl": 3908, "direct_shl_rate": 10.9}, "2025-08": {"ok": 34, "warn": 413, "direct": 40, "total": 487, "ok_rate": 91.8, "direct_shl": 420, "total_shl": 2898, "direct_shl_rate": 14.5}, "2025-10": {"ok": 56, "warn": 555, "direct": 268, "total": 879, "ok_rate": 69.5, "direct_shl": 1430, "total_shl": 4764, "direct_shl_rate": 30.0}, "2025-11": {"ok": 99, "warn": 604, "direct": 266, "total": 969, "ok_rate": 72.5, "direct_shl": 1352, "total_shl": 5219, "direct_shl_rate": 25.9}, "2025-12": {"ok": 149, "warn": 842, "direct": 387, "total": 1378, "ok_rate": 71.9, "direct_shl": 1841, "total_shl": 6225, "direct_shl_rate": 29.6}, "2026-01": {"ok": 121, "warn": 670, "direct": 342, "total": 1133, "ok_rate": 69.8, "direct_shl": 1693, "total_shl": 5453, "direct_shl_rate": 31.0}, "2026-02": {"ok": 126, "warn": 590, "direct": 407, "total": 1123, "ok_rate": 63.8, "direct_shl": 2585, "total_shl": 6416, "direct_shl_rate": 40.3}, "2026-03": {"ok": 164, "warn": 801, "direct": 354, "total": 1319, "ok_rate": 73.2, "direct_shl": 2010, "total_shl": 7113, "direct_shl_rate": 28.3}, "2026-04": {"ok": 61, "warn": 915, "direct": 529, "total": 1505, "ok_rate": 64.9, "direct_shl": 3252, "total_shl": 9026, "direct_shl_rate": 36.0}};
 function toggleMatch(){
@@ -301,7 +301,7 @@ function buildMatchTable(){
     <td style="color:var(--warn-hi)">${dRate}%</td>`;
   tbody.appendChild(tr);
   tbl.appendChild(tbody);
-
+ 
   // スタックバーチャート
   const months_=Object.keys(MATCH_STATS).sort();
   if(matchChartInst) matchChartInst.destroy();
@@ -326,13 +326,17 @@ function buildMatchTable(){
   });
 }
 </script>
-
+ 
 <div class="footer">
-    データ: SHL正式ファイル（2025年11月〜2026年4月）+ 既存スプシ（4〜8月）+ 楽天販売積み上げデータ<br>
-    突合OK: 8,706行 ｜ 直取引候補: 2,935行（集計除外）｜ 2025年9・10月は参考値のため除外済み
+    データ: SHL正式ファイル（2025年11月〜2026年7月）+ 既存スプシ（4〜8月）+ 楽天販売積み上げデータ<br>
+    突合OK: 8,706行 ｜ 直取引候補: 2,935行（集計除外）｜ 2025年9・10月は参考値のため除外済み<br>
+    <span style="opacity:.8">【2026-08-20 更新】① サティスGリトイレを独立シリーズとして追加（基準値 55〜59% → 15.1% に修正）
+    ② 未掲載4シリーズ（ND26・シエラS・EVシリーズ・クレヴィ）を追加
+    ③ KB・KAシリーズはトイレ系に分類済みであることを確認<br>
+    ▼印のシリーズは2026年1〜7月のSHL請求データによる新規集計（案件単位・OMB控除後）。突合できた案件のみを対象としています。</span>
   </div>
 </div>
-
+ 
 <script>
 // ===== データ（9・10月除外済み）=====
 const DATA = {
@@ -343,11 +347,16 @@ const DATA = {
   "KAシリーズ（トイレ）":{cat:"t",monthly:{"2025-05":{avg:27.9,count:2},"2025-06":{avg:30.7,count:4},"2025-07":{avg:29.9,count:2},"2025-08":{avg:31.6,count:2},"2025-11":{avg:24.4,count:23},"2025-12":{avg:23.1,count:28},"2026-01":{avg:25.6,count:55},"2026-02":{avg:24.2,count:3}},all_avg:25.1,last1:24.2,last3:24.7,last6:24.9,total:119},
   "サティスS（トイレ）":{cat:"t",monthly:{"2025-05":{avg:11.0,count:2},"2025-06":{avg:12.8,count:4},"2025-07":{avg:12.1,count:5},"2025-08":{avg:13.4,count:2},"2025-11":{avg:12.2,count:7},"2025-12":{avg:11.9,count:4},"2026-01":{avg:13.0,count:5},"2026-02":{avg:11.8,count:3},"2026-03":{avg:11.3,count:2},"2026-04":{avg:12.4,count:5}},all_avg:12.3,last1:12.4,last3:12.0,last6:12.2,total:39},
   "サティスG（トイレ）":{cat:"t",monthly:{"2025-04":{avg:15.5,count:2},"2025-05":{avg:43.3,count:6},"2025-06":{avg:37.6,count:4},"2025-07":{avg:16.8,count:2},"2025-08":{avg:14.6,count:2},"2025-11":{avg:34.2,count:6},"2025-12":{avg:14.8,count:2},"2026-01":{avg:14.7,count:2},"2026-03":{avg:14.4,count:6},"2026-04":{avg:14.7,count:4}},all_avg:25.4,last1:14.7,last3:14.5,last6:19.9,total:36},
+  "ND26（キッチン）":{cat:"k",monthly:{"2026-02":{avg:56.1,count:1},"2026-03":{avg:58.6,count:4},"2026-04":{avg:55.7,count:45},"2026-05":{avg:56.1,count:54},"2026-06":{avg:55.7,count:88},"2026-07":{avg:55.4,count:9}},all_avg:55.9,last1:55.4,last3:55.7,last6:55.9,total:201,src:"new"},
+  "シエラS（キッチン）":{cat:"k",monthly:{"2026-03":{avg:39.1,count:3},"2026-04":{avg:50.1,count:32},"2026-05":{avg:52.0,count:32},"2026-06":{avg:50.8,count:49},"2026-07":{avg:50.4,count:8}},all_avg:50.6,last1:50.4,last3:51.1,last6:50.6,total:124,src:"new"},
+  "EVシリーズ（洗面）":{cat:"w",monthly:{"2025-12":{avg:39.4,count:15},"2026-01":{avg:40.3,count:15},"2026-02":{avg:38.1,count:20},"2026-03":{avg:40.2,count:28},"2026-04":{avg:39.7,count:15},"2026-05":{avg:39.6,count:16},"2026-06":{avg:39.1,count:16},"2026-07":{avg:38.4,count:11}},all_avg:39.4,last1:38.4,last3:39.0,last6:39.2,total:136,src:"new"},
+  "クレヴィ（洗面）":{cat:"w",monthly:{"2025-12":{avg:28.9,count:10},"2026-01":{avg:30.9,count:9},"2026-02":{avg:32.0,count:5},"2026-03":{avg:31.8,count:9},"2026-04":{avg:28.6,count:9},"2026-05":{avg:28.3,count:4},"2026-06":{avg:28.0,count:1},"2026-07":{avg:28.8,count:1}},all_avg:30.2,last1:28.8,last3:28.4,last6:29.9,total:48,src:"new"},
+  "サティスGリトイレ（トイレ）":{cat:"t",monthly:{"2026-01":{avg:15.8,count:1},"2026-02":{avg:15.1,count:2},"2026-05":{avg:15.6,count:2},"2026-06":{avg:14.3,count:1}},all_avg:15.1,last1:14.3,last3:15.1,last6:15.1,total:6,src:"new"},
   "サティスX（トイレ）":{cat:"t",monthly:{"2025-04":{avg:12.6,count:4},"2025-05":{avg:14.2,count:4},"2025-07":{avg:11.3,count:2},"2025-12":{avg:15.4,count:2}},all_avg:13.4,last1:15.4,last3:13.8,last6:13.4,total:12},
   "ピアラ（洗面）":{cat:"w",monthly:{"2025-04":{avg:28.0,count:8},"2025-05":{avg:27.4,count:17},"2025-06":{avg:24.6,count:15},"2025-07":{avg:27.9,count:25},"2025-08":{avg:27.7,count:13},"2025-11":{avg:27.5,count:20},"2025-12":{avg:28.2,count:32},"2026-01":{avg:27.8,count:32},"2026-02":{avg:31.5,count:20},"2026-03":{avg:28.7,count:21},"2026-04":{avg:28.6,count:24}},all_avg:28.1,last1:28.6,last3:29.5,last6:28.6,total:227},
   "コフレル（洗面）":{cat:"w",monthly:{"2025-04":{avg:21.3,count:1},"2025-05":{avg:22.1,count:5},"2025-06":{avg:16.3,count:3},"2025-07":{avg:19.9,count:5},"2025-08":{avg:39.2,count:5},"2025-11":{avg:30.5,count:6},"2025-12":{avg:33.2,count:11},"2026-01":{avg:27.8,count:8},"2026-02":{avg:18.8,count:5},"2026-03":{avg:22.3,count:6},"2026-04":{avg:21.0,count:4}},all_avg:26.4,last1:21.0,last3:20.8,last6:27.1,total:59},
 };
-
+ 
 // ===== 要因分析データ =====
 const ANALYSIS = {
   "コフレル（洗面）": {
@@ -383,29 +392,48 @@ const ANALYSIS = {
       }
     }
   },
+  "サティスGリトイレ（トイレ）": {
+    note: "【新規追加・2026年8月】従来はサティスGに混在集計され、基準値は55〜59%とされていた。2026年1〜7月のSHL請求データで該当6案件をすべて個別検証した結果、実測値は15.1%。6案件とも14.3〜15.8%の狭い範囲に収まり、突合ミス・外れ値は検出されなかった。掛率51.7%・販売率60.9%で、同系列のサティスS（12.1%）・サティスG（16.3%）とも整合する。",
+    months: {
+      "2026-01": {
+        type: "ok",
+        cause: "基準値の誤りを是正（55〜59%→15.1%）",
+        detail: "旧基準値55〜59%の発生要因は「販売率（楽天売価÷定価＝60.9%）を利益率として転記した」可能性が最も高い。次点でSHL明細の片側（便器部のみ／機能部のみ）で原価を計上したケース（65〜74%になる）。サティスGリトイレは便器部YBC-G30Hと機能部DV-G315H等の2明細で1台を構成するため、案件単位で合算しないと利益率が跳ね上がる。",
+        tags: ["tag-ok","tag-data"],
+        tagLabels: ["基準値修正済み","案件単位で合算"]
+      },
+      "2026-06": {
+        type: "ok",
+        cause: "実測レンジ内（正常）",
+        detail: "14.3%。定価1,088,900円に対し仕入566,545円（掛率52.0%）、楽天売上660,800円（販売率60.7%）。6案件中で最も規模が大きく、最も利益率が低い。大型案件ほど値引きが入る傾向はサティス系全体で共通。",
+        tags: ["tag-ok"],
+        tagLabels: ["正常値"]
+      }
+    }
+  },
   "サティスG（トイレ）": {
-    note: "サティスG通常品（〜15%）とサティスGリトイレ（55〜59%）が現在同一シリーズに混在集計されている。リトイレが入った月は平均が大きく跳ね上がる。分離集計が最重要課題。",
+    note: "【2026年8月更新】リトイレを分離集計した結果、サティスGリトイレの実測値は15.1%（6案件・全件検証済み）であり、従来の基準値55〜59%は誤りと判明した。したがって過去の高利益率月（43.3%・37.6%・34.2%）はリトイレ混入では説明できない。代替要因としてSHL明細の一部欠落（手洗器・部材のみ計上）が有力。該当月は再検証が必要。",
     months: {
       "2025-05": {
         type: "hi",
-        cause: "リトイレの混入（確度：高）",
-        detail: "43.3%は通常品だけでは絶対に出ない水準。6件中に1〜2件のリトイレが含まれることで平均が急上昇したと推測。リトイレ単体利益率55〜59%と通常品14〜15%の混在による数値。分離集計後に再確認必須。",
+        cause: "要因再検証中（リトイレ説は否定）",
+        detail: "43.3%は通常品だけでは出ない水準。従来はリトイレ混入と推定していたが、リトイレの実測値が15.1%と判明したためこの説明は成立しない。SHL側で本体明細が欠落し部材のみ計上された可能性が高い。該当6件のSHL明細を要再確認。",
         tags: ["tag-check","tag-data"],
-        tagLabels: ["リトイレ混入（高確度）","分離後要再集計"]
+        tagLabels: ["リトイレ説は否定","分離後要再集計"]
       },
       "2025-06": {
         type: "hi",
-        cause: "リトイレの混入（確度：高）",
-        detail: "37.6%は通常品利益率14.5%から約+23pt乖離。4件中1件以上がリトイレと判断するのが妥当。5〜6月は排泄介助需要が高まる時期でリトイレ受注が増える傾向がある。",
+        cause: "要因再検証中（リトイレ説は否定）",
+        detail: "37.6%は通常品利益率16.3%から約+21pt乖離。リトイレ混入説は実測値15.1%の判明により否定。SHL明細の一部欠落、または他シリーズとの合算注文の可能性。該当4件を要再確認。",
         tags: ["tag-check","tag-data"],
-        tagLabels: ["リトイレ混入（高確度）","分離後要再集計"]
+        tagLabels: ["リトイレ説は否定","分離後要再集計"]
       },
       "2025-11": {
         type: "hi",
-        cause: "リトイレの混入（確度：中〜高）",
-        detail: "34.2%で6件。通常品のみであれば14〜16%帯に収まるはず。6件中1〜2件のリトイレが含まれていると推測。11月は年末工事需要でリトイレ受注が集中しやすい。",
+        cause: "要因再検証中（リトイレ説は否定）",
+        detail: "34.2%で6件。通常品のみであれば14〜16%帯に収まるはず。リトイレ混入説は否定されたため、SHL明細の欠落または楽天側で複数商品がまとめ計上された可能性を確認する必要がある。",
         tags: ["tag-check","tag-data"],
-        tagLabels: ["リトイレ混入（推定）","分離後要再集計"]
+        tagLabels: ["リトイレ説は否定","分離後要再集計"]
       },
       "2025-07": {
         type: "ok",
@@ -417,7 +445,7 @@ const ANALYSIS = {
       "2025-08": {
         type: "ok",
         cause: "通常品のみ（正常値）",
-        detail: "14.6%は基準値と一致。件数2件で通常品のみの受注月と推測。これがサティスG単体の実態利益率。",
+        detail: "14.6%は基準値と一致。件数2件で通常品のみの受注月。2026年1〜7月の再突合でもサティスG通常品は16.3%（12案件）で、この水準が実態と確認された。",
         tags: ["tag-ok"],
         tagLabels: ["通常品のみ"]
       }
@@ -425,12 +453,14 @@ const ANALYSIS = {
   }
 };
 const CAT_NAMES={k:"キッチン",t:"トイレ",w:"洗面"};
+// 2026-08-20 追加：新規集計シリーズの表示ラベル（▼＝2026年1〜7月データ）
+function sLabel(name){ return (DATA[name]&&DATA[name].src==="new") ? "▼ "+name : name; }
 const CAT_COLORS={k:"var(--k)",t:"var(--t)",w:"var(--w)"};
-const ALL_MONTHS=["2025-04","2025-05","2025-06","2025-07","2025-08","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04"];
-
+const ALL_MONTHS=["2025-04","2025-05","2025-06","2025-07","2025-08","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07"];
+ 
 let period=3, cat='all', thr=5;
 const miniCharts={};
-
+ 
 function getRate(series){
   const d=DATA[series];
   if(period===1)return d.last1;
@@ -438,17 +468,17 @@ function getRate(series){
   if(period===6)return d.last6;
   return d.all_avg;
 }
-
+ 
 function getLatestMonth(series){
   const months=Object.keys(DATA[series].monthly).sort();
   return months[months.length-1];
 }
-
+ 
 function mLabel(m){
   const [y,mo]=m.split('-');
   return `${y.slice(2)}/${parseInt(mo)}月`;
 }
-
+ 
 function setPeriod(n){
   period=n;
   ['1','3','6','0'].forEach(x=>{
@@ -456,7 +486,7 @@ function setPeriod(n){
   });
   render();
 }
-
+ 
 function setCat(c){
   cat=c;
   ['all','k','t','w'].forEach(x=>{
@@ -466,11 +496,11 @@ function setCat(c){
   });
   render();
 }
-
+ 
 function render(){
   thr=parseFloat(document.getElementById('thr').value)||5;
   const series=Object.entries(DATA).filter(([,d])=>cat==='all'||d.cat===cat);
-
+ 
   // サマリー
   const rates=series.map(([s])=>getRate(s)).filter(Boolean);
   const alerts=series.filter(([s,d])=>{
@@ -482,21 +512,21 @@ function render(){
   const byT=series.filter(([,d])=>d.cat==='t').map(([s])=>getRate(s)).filter(Boolean);
   const byW=series.filter(([,d])=>d.cat==='w').map(([s])=>getRate(s)).filter(Boolean);
   const avg=n=>n.length?Math.round(n.reduce((a,b)=>a+b)/n.length*10)/10:'-';
-
+ 
   document.getElementById('summBar').innerHTML=`
     <div class="scard"><div class="scard-n">対象シリーズ</div><div class="scard-v">${series.length}</div><div class="scard-s">件</div></div>
     <div class="scard"><div class="scard-n">乖離アラート</div><div class="scard-v ${alerts.length?'v-alert':''}">${alerts.length}</div><div class="scard-s">±${thr}%以上</div></div>
     <div class="scard"><div class="scard-n">キッチン平均</div><div class="scard-v v-k">${avg(byK)}<span style="font-size:16px;color:var(--muted)">%</span></div><div class="scard-s">${byK.length}シリーズ</div></div>
     <div class="scard"><div class="scard-n">トイレ平均</div><div class="scard-v v-t">${avg(byT)}<span style="font-size:16px;color:var(--muted)">%</span></div><div class="scard-s">${byT.length}シリーズ</div></div>`;
-
+ 
   const ac=document.getElementById('alertCount');
   if(alerts.length){ac.textContent=`⚠ 乖離 ${alerts.length}件`;ac.className='alert-count ac-ng';}
   else{ac.textContent='✅ 乖離なし';ac.className='alert-count ac-ok';}
-
+ 
   // リスト
   const list=document.getElementById('seriesList');
   list.innerHTML='';
-
+ 
   series.sort((a,b)=>{
     const co={k:0,t:1,w:2};
     if(co[a[1].cat]!==co[b[1].cat])return co[a[1].cat]-co[b[1].cat];
@@ -510,17 +540,17 @@ function render(){
     const isLo=delta!==null&&delta<=-thr;
     const colClass=`r-${isHi?'alert':isLo?'alert':d.cat}`;
     const periodLabel=period===1?'直近1ヶ月':period===3?'直近3ヶ月':period===6?'直近6ヶ月':'全期間';
-
+ 
     const row=document.createElement('div');
     row.className=`srow${isHi?' alert-hi':isLo?' alert-lo':''}`;
     row.id=`row-${sname}`;
-
+ 
     const periodPills=['last1','last3','last6','all_avg'].map((k,i)=>{
       const v=k==='all_avg'?d.all_avg:d[k];
       const lbl=['直近1ヶ月','直近3ヶ月','直近6ヶ月','全期間'][i];
       return `<div class="pp pp-${d.cat}">${lbl} <span>${v??'-'}%</span></div>`;
     }).join('');
-
+ 
     const seriesAnalysis = ANALYSIS[sname] || null;
     const monthRows=Object.entries(d.monthly).sort((a,b)=>a[0].localeCompare(b[0])).map(([m,v])=>{
       const base=getRate(sname)||0;
@@ -540,7 +570,7 @@ function render(){
         <td style="font-size:11px;color:var(--muted)">${v.count}件</td>
       </tr>`;
     }).join('');
-
+ 
     // 要因分析パネルHTML生成
     let analysisHTML = '';
     if(seriesAnalysis){
@@ -568,7 +598,7 @@ function render(){
             </div>
           </div>`;
         }).join('');
-
+ 
         analysisHTML = `
         <div class="analysis-panel">
           <div class="analysis-hdr">
@@ -583,7 +613,7 @@ function render(){
         </div>`;
       }
     }
-
+ 
     row.innerHTML=`
       <div class="srow-main" onclick="toggleRow('${sname}')">
         <div class="cat-dot dot-${d.cat}"></div>
@@ -629,27 +659,27 @@ function render(){
     list.appendChild(row);
   });
 }
-
+ 
 function toggleRow(sname){
   const row=document.getElementById(`row-${sname}`);
   const wasOpen=row.classList.contains('open');
   row.classList.toggle('open');
   if(!wasOpen) drawMiniChart(sname);
 }
-
+ 
 function drawMiniChart(sname){
   const d=DATA[sname];
   const id=`mc-${sname.replace(/[（）]/g,'')}`;
   const canvas=document.getElementById(id);
   if(!canvas)return;
   if(miniCharts[id]){miniCharts[id].destroy();delete miniCharts[id];}
-
+ 
   const months=ALL_MONTHS.filter(m=>d.monthly[m]);
   const rates=months.map(m=>d.monthly[m].avg);
   const base=getRate(sname)||0;
   const colMap={k:'#16a34a',t:'#2563eb',w:'#7c3aed'};
   const col=colMap[d.cat];
-
+ 
   miniCharts[id]=new Chart(canvas,{
     type:'line',
     data:{
@@ -669,8 +699,9 @@ function drawMiniChart(sname){
     }
   });
 }
-
+ 
 render();
 </script>
 </body>
 </html>
+ 
